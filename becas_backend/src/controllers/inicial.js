@@ -8,12 +8,12 @@ module.exports.crear_admin = async function () {
         const admin = await personal.findOne({
             rol: "ADMINISTRADOR",
         });
-        if (!super_admin) {
+        if (!admin) {
 
             // crear usuario admin
             await personal.create({
-                nombre_apellido: "NODO",
-                rol: "SUPER ADMINISTRADOR",
+                nombre_apellido: "ADMIN",
+                rol: "ADMINISTRADOR",
                 credenciales: {
                     usuario: "admin",
                     clave: "admin"
