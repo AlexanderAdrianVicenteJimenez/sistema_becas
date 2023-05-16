@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
-
+const {upload} = require('../config/enviroment/index');
 
 const controlador_estudiante = require('../controllers/controlador_estudiante');
 const controlador_beca = require('../controllers/controlador_beca');
 const controlador_solicitud = require('../controllers/controlador_solicitud');
 const controlador_personal = require('../controllers/controlador_personal');
+const util = require('../controllers/utilities');
 
 router.post('/iniciar/sesion', controlador_estudiante.iniciar_sesion);
 router.post('/crear/editar/estudiante',controlador_estudiante.crear_editar_estudiante);
@@ -26,5 +27,5 @@ router.post('/eliminar/personal',controlador_personal.eliminar_personal);
 router.post('/crear/editar/personal',controlador_personal.crear_editar_personal);
 router.post('/iniciar/sesion/personal', controlador_personal.iniciar_sesion_personal);
 
-
+router.post('/subir/archivo',upload.single('file') , util.subir_archivo);
 module.exports = router;

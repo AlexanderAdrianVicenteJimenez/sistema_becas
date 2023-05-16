@@ -1,3 +1,6 @@
+const multer = require('multer');
+
+
 const configuracionBase = {
     HOST: process.env.HOST || 'localhost',
     PORT: process.env.PORT || 3000,
@@ -8,6 +11,17 @@ const configuracionBase = {
     }
 };
 
+
+const storage = multer.diskStorage({
+    destination: './uploads/',
+    filename: (req, file ,cb ) => {
+      cb("",Date.now() + '-' + file.originalname )
+    }
+  })
+
+const upload = multer({storage : storage});
+
+
 module.exports={
-    ...configuracionBase,
+    ...configuracionBase, upload
 }

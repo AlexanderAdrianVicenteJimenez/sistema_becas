@@ -114,7 +114,46 @@
                       {{ solicitud? solicitud.estado : "" }}
                     </v-chip>
                   </v-container>
+
+                  <v-container v-if="solicitud.beca.tipo == 'Bajos Recursos'">
+                    <strong>ingresos : </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.bajos_recursos.ingresos : "" }}
+                      </v-container>
+                      <strong>Certificado Ingresos: </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.bajos_recursos.certificado_ingresos: "" }}
+                      </v-container>
+                  </v-container>
+
+                  
+                  <v-container v-if="solicitud.beca.tipo == 'Deportiva'">
+                    <strong>Deporte : </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.deportiva.deporte : "" }}
+                      </v-container>
+                      <strong>Certificado Deportivo: </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.deportiva.certificado_deportivo: "" }}
+                      </v-container>
+                  </v-container>
+
+                  <v-container v-if="solicitud.beca.tipo == 'Academica'">
+                    <strong>Promedio: </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.academica.promedio : "" }}
+                      </v-container>
+                      <strong>Record Academico: </strong>
+                      <v-container
+                        >{{ solicitud ? solicitud.beca.academica.record_academico: "" }}
+                      </v-container>
+                  </v-container>
+
                 </v-col>
+
+
+
+
               </v-row>
             </v-container>
           </v-col>

@@ -255,14 +255,13 @@
                   </v-text-field>
                 </v-col>
                 <v-col v-if="tipo == 'Academica'" cols="12" md="6">
-                  <v-text-field
-                    append-icon="mdi-head-question-outline"
+                  <v-file-input
+                    prepend-icon="mdi-file"
                     class="mx-4"
-                    flat
                     label="Record Academico"
-                    v-model="record_academico"
+                    v-model="file"
                   >
-                  </v-text-field>
+                  </v-file-input>
                 </v-col>
 
                 <v-col v-if="tipo == 'Bajos Recursos'" cols="12" md="6">
@@ -276,14 +275,13 @@
                   </v-text-field>
                 </v-col>
                 <v-col v-if="tipo == 'Bajos Recursos'" cols="12" md="6">
-                  <v-text-field
-                    append-icon="mdi-head-question-outline"
+                  <v-file-input
+                    prepend-icon="mdi-file"
                     class="mx-4"
-                    flat
-                    label="Cerificado de ingresos"
-                    v-model="certificado_ingresos"
+                    label="Certificado Ingresos"
+                    v-model="file"
                   >
-                  </v-text-field>
+                  </v-file-input>
                 </v-col>
 
 
@@ -298,14 +296,13 @@
                   </v-text-field>
                 </v-col>
                 <v-col v-if="tipo == 'Deportiva'" cols="12" md="6">
-                  <v-text-field
-                    append-icon="mdi-head-question-outline"
+                  <v-file-input
+                    prepend-icon="mdi-file"
                     class="mx-4"
-                    flat
-                    label="Certificado deportivo"
-                    v-model="certificado_deportivo"
+                    label="Certificado Deportivo"
+                    v-model="file"
                   >
-                  </v-text-field>
+                  </v-file-input>
                 </v-col>
 
               </v-row>
@@ -368,6 +365,7 @@ export default {
       tipo:"",
       estado_beca:"",
       monto:"",
+      date: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       fecha_inicio:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       fecha_fin:(new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       ingresos:"",
@@ -379,15 +377,18 @@ export default {
 
       id_beca:"",
       id_estudiante:"",
-
       menu: false,
+      file:""
     };
   },
   methods: {
     crear_editar_solicitud() {
       try {
 
+        let ruta;
         const fecha = new Date()
+        const formData = new FormData();
+        formData.append('file', this.file);
 
         var beca ={
           tipo:this.tipo,
@@ -396,24 +397,30 @@ export default {
           fecha_inicio:this.fecha_inicio,
           fecha_fin:this.fecha_fin,
         }
+        
+        controlador_beca.subir_archivo(formData, async (response) => {
+          ruta = response.path
+         });
 
-        if(this.tipo == "Academica"){
-          beca.promedio = this.promedio
-          beca.record_academico = this.record_academico
-        }
-        if(this.tipo == "Bajos Recursos"){
-          beca.ingresos = this.ingresos
-          beca.certificado_ingresos = this.certificado_ingresos
-        }
-        if(this.tipo == "Deportiva"){
-          beca.deporte = this.deporte
-          beca.certificado_deportivo = this.certificado_deportivo
-        }
 
-        if (this.id_beca!= undefined && this.id_beca.trim() != "") {
-         beca._id = this.id_beca;
-        }
+         if(this.tipo == "Academica"){
+            beca.promedio = this.promedio
+            beca.record_academico = ruta
+          }
+          if(this.tipo == "Bajos Recursos"){
+            beca.ingresos = this.ingresos
+            beca.certificado_ingresos = rita
+          }
+          if(this.tipo == "Deportiva"){
+            beca.deporte = this.deporte
+            beca.certificado_deportivo = ruta
+          }
 
+          if (this.id_beca!= undefined && this.id_beca.trim() != "") {
+          beca._id = this.id_beca;
+          }
+        
+        console.log("Beca", beca)
         controlador_beca.crear_editar_beca(beca, async (response) => {
           this.beca = response._id;
          
@@ -427,6 +434,7 @@ export default {
         if (this.id_solicitud != undefined && this.id_solicitud.trim() != "") {
           element._id = this.id_solicitud;
         }
+
 
         controlador_solicitud.crear_editar_solicitud(element, async (response) => {
           // if (response.tipo == "success") {

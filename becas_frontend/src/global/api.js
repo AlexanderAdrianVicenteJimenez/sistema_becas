@@ -21,4 +21,6 @@ export default {
    iniciar_sesion_personal: PATH + '/iniciar/sesion/personal',
 
    obtener_solicitud_estudiante: PATH + '/obtener/solicitud/estudiante',
+
+   subir_archivo: PATH + '/subir/archivo',
 }

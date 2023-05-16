@@ -9,6 +9,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 const compression = require('compression');
 const mongoose = require('mongoose');
+const multer = require('multer');
 
 
 var app = express();
